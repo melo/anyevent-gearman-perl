@@ -3,9 +3,11 @@ name 'AnyEvent-Gearman';
 all_from 'lib/AnyEvent/Gearman.pm';
 
 requires 'AnyEvent'          => '5.12';
+requires 'namespace::clean';
 requires 'Moo'               => '1.000007';
 requires 'Object::Event'     => '1.0';
 requires 'Object::Container' => '0.03002';
+requires 'Type::Tiny';
 
 test_requires 'Test::More' => '0.92';
 test_requires 'Test::Exception';

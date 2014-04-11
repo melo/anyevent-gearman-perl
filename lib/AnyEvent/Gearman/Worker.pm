@@ -1,36 +1,45 @@
 package AnyEvent::Gearman::Worker;
-use Moo;
 
 use AnyEvent::Gearman::Worker::Connection;
+use Types::Standard qw/ ArrayRef HashRef Str /;
+use Type::Utils qw/ class_type /;
 
-extends 'Object::Event';
+use Moo;
+#extends 'Object::Event';
+use namespace::clean;
+
+# Type definitions
+
+my $Connection = class_type {
+    class => 'AnyEvent::Gearman::Worker::Connection'
+};
+
+my $JobServers = ArrayRef[
+    $Connection->plus_coercions(Str, q{
+        AnyEvent::Gearman::Worker::Connection->new(hostspec => $_)
+    })
+];
+
+# Public attributes
 
 has job_servers => (
     is       => 'ro',
+    isa      => $JobServers,
+    coerce   => $JobServers->coercion,
     required => 1,
-    default  => sub { [] },
-    coerce   => sub {
-        for my $con (@{$_[0]}) {
-            next if ref($con) and $con->isa('AnyEvent::Gearman::Worker::Connection');
-            $con = AnyEvent::Gearman::Worker::Connection->new( hostspec => $con );
-        }
-        return $_[0];
-    },
 );
 
 has prefix => (
     is      => 'ro',
-#    isa     => 'Str',
-    default => sub { '' },
+    isa     => Str,
+    default => '',
 );
 
 has functions => (
     is      => 'ro',
-#    isa     => 'HashRef',
+    isa     => HashRef,
     default => sub { {} },
 );
-
-no Moo;
 
 sub register_function {
     my ($self, $func_name, $code) = @_;
@@ -39,7 +48,7 @@ sub register_function {
         if $self->functions->{ $func_name };
 
     for my $js (@{ $self->job_servers }) {
-        $js->context($self) unless $js->context;
+        $js->_set_context($self) unless $js->has_context;
         $js->register_function( $func_name );
     }
 
@@ -50,7 +59,7 @@ sub unregister_function {
     my ($self, $func_name) = @_;
 
     for my $js (@{ $self->job_servers }) {
-        $js->context($self) unless $js->context;
+        $js->_set_context($self) unless $js->has_context;
         $js->unregister_function( $func_name );
     }
 }
@@ -68,12 +77,12 @@ AnyEvent::Gearman::Worker - Gearman worker for AnyEvent application
 =head1 SYNOPSIS
 
     use AnyEvent::Gearman::Worker;
-    
+
     # create gearman worker
     my $worker = AnyEvent::Gearman::Worker->new(
         job_servers => ['127.0.0.1', '192.168.0.1:123'],
     );
-    
+
     # add worker function
     $worker->register_function( reverse => sub {
         my $job = shift;

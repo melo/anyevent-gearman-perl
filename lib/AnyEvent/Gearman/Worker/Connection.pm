@@ -1,20 +1,21 @@
 package AnyEvent::Gearman::Worker::Connection;
-use Moo;
+
 use Scalar::Util 'weaken';
 require bytes;
-
 use AnyEvent::Gearman::Constants;
 use AnyEvent::Gearman::Job;
+use Types::Standard qw/ Bool /;
 
+use Moo;
 extends 'AnyEvent::Gearman::Connection';
+use namespace::clean;
 
 has grabbing => (
     is      => 'rw',
-#    isa     => 'Bool',
-    default => sub { 0 },
+    isa     => Bool,
+    default => 0,
 );
 
-no Moo;
 
 sub request {
     my ($self, $type, $args) = @_;

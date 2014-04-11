@@ -1,9 +1,8 @@
 package AnyEvent::Gearman::Job;
+
 use Moo;
-
 extends 'AnyEvent::Gearman::Task';
-
-no Moo;
+use namespace::clean;
 
 sub complete {
     my ($self, $result) = @_;

@@ -37,7 +37,7 @@ AnyEvent::Gearman - Asynchronous Gearman client/worker module for AnyEvent appli
 Client:
 
     my $client = gearman_client '127.0.0.1', '192.168.0.1:123';
-    
+
     $client->add_task(
         $function => $workload,
         on_complete => sub {
@@ -52,7 +52,7 @@ Client:
 Worker:
 
     my $worker = gearman_worker '127.0.0.1', '192.168.0.1:123';
-    
+
     $worker->register_function(
         reverse => sub {
             my $job = shift;
