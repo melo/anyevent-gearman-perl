@@ -164,7 +164,7 @@ sub process_packet {
             my $packet_handler = $self->can("process_packet_$type");
 
             unless ($packet_handler) {
-                # Ignore unimplement packet
+                # Ignore unimplemented packet
                 $_[0]->unshift_read( chunk => $len, sub {} ) if $len;
                 return;
             }
