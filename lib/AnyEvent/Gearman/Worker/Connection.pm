@@ -138,7 +138,9 @@ sub process_packet_11 {         # JOB_ASSIGN
 sub work {
     my ($self, $job) = @_;
 
-    my $cb = $self->context->functions->{ $job->function } or return;
+    my $function = $job->function;
+    $function =~ s/^.*?\t// if $self->context->prefix;
+    my $cb = $self->context->functions->{ $function } or return;
     $cb->($job);
 }
 
