@@ -105,6 +105,12 @@ In latter case, gearman default port 4730 will be used.
 
 You should set at least one job_server.
 
+=item prefix => 'Str',
+
+Sets the namespace / prefix for the function names. This is useful for sharing job servers between different applications or different instances of the same application (different development sandboxes for example).
+
+The namespace is currently implemented as a simple tab separated concatenation of the prefix and the function name.
+
 =back
 
 =head2 register_function( $function_name, $subref )
