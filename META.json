@@ -1,0 +1,39 @@
+{
+   "abstract" : "Asynchronous Gearman client/worker module for AnyEvent applications",
+   "author" : [
+      "Daisuke Murase <typester@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "gen-cpan-meta version 0.009",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "AnyEvent-Gearman",
+   "prereqs" : {
+      "runtime" : {
+         "requires" : {
+            "AnyEvent":"5.12",
+            "Any::Moose":"0.13",
+            "Mouse":"0.80",
+            "MouseX::Foreign":"0",
+            "Object::Event":"1.0",
+            "Object::Container":"0.03002"
+         }
+      },
+      "test" : {
+         "requires" : {
+             "Test::More":"0.92",
+             "Test::Exception":"0",
+             "Test::Deep":"0",
+             "Test::Base":"0",
+             "Test::TCP":"0.08"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.10"
+}
