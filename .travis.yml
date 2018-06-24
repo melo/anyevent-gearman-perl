@@ -1,0 +1,12 @@
+language: perl
+perl:
+  - "5.26"
+  - "5.24"
+  - "5.22"
+  - "5.20"
+  - "5.18"
+  - "5.14"
+before_install:
+  - sudo apt-get update -q
+  - sudo apt-get install -y aspell
+  - cpanm Module::Install::AuthorTests Gearman::Server Gearman::Worker Test::Spelling Test::Pod::Coverage
